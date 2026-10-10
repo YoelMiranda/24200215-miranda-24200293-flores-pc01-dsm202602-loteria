@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "638048657780",
+    "project_id": "pc01-a1cf9",
+    "storage_bucket": "pc01-a1cf9.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:638048657780:android:93712601c2e48bd6d0cc21",
+        "android_client_info": {
+          "package_name": "com.esan.loteria"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDGTLRQjFiP-He8k6QaQ9e4E-5r2Dt71U0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
