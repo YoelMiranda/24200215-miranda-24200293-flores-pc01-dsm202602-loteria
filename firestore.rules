@@ -1,0 +1,32 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // Sorteo: cualquier usuario autenticado lo lee. Solo se permite crear el sorteo de prueba
+    // abierto (si no existe). El estado y las bolillas se administran desde la consola de Firebase.
+    match /sorteos/{sorteoId} {
+      allow read: if request.auth != null;
+      allow create: if request.auth != null
+                    && sorteoId == 'sorteo-prueba'
+                    && request.resource.data.estado == 'abierto';
+      allow update, delete: if false;
+
+      match /bolillas/{bolillaId} {
+        allow read: if request.auth != null;
+        allow write: if false;
+      }
+    }
+
+    // Jugada: id = {sorteoId}_{uid}. Cada usuario solo lee la suya, la crea una vez
+    // y únicamente mientras el sorteo está abierto. No se modifica ni se borra.
+    match /jugadas/{jugadaId} {
+      allow read: if request.auth != null && resource.data.uid == request.auth.uid;
+      allow create: if request.auth != null
+                    && request.resource.data.uid == request.auth.uid
+                    && jugadaId == request.resource.data.sorteoId + '_' + request.auth.uid
+                    && request.resource.data.numeros.size() == 6
+                    && get(/databases/$(database)/documents/sorteos/$(request.resource.data.sorteoId)).data.estado == 'abierto';
+      allow update, delete: if false;
+    }
+  }
+}
